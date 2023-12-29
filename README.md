@@ -1,2 +1,3 @@
 # otel-extensions
-Opentelemetry extensions
+
+Very basic example implementation of Opentelemetry extensions for different libraries.
