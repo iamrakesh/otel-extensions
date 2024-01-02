@@ -1,13 +1,14 @@
 
 package io.github.iamrakesh.otel.wicket.instrumentation;
 
+import java.util.Collections;
+import java.util.List;
+
 import com.google.auto.service.AutoService;
+
 import io.opentelemetry.javaagent.extension.instrumentation.InstrumentationModule;
 import io.opentelemetry.javaagent.extension.instrumentation.TypeInstrumentation;
 import io.opentelemetry.javaagent.extension.matcher.AgentElementMatchers;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import net.bytebuddy.matcher.ElementMatcher;
 
 /**
@@ -16,12 +17,6 @@ import net.bytebuddy.matcher.ElementMatcher;
  */
 @AutoService(InstrumentationModule.class)
 public final class WicketInstrumentationModule extends InstrumentationModule {
-	private static final List<String> HELPER_CLASSES = Arrays.asList(
-			"io.opentelemetry.javaagent.extension.instrumentation.TypeInstrumentation",
-			"org.apache.wicket.request.cycle.RequestCycle", "org.apache.wicket.WicketRuntimeException",
-			"org.apache.wicket.request.component.IRequestablePage",
-			"org.apache.wicket.core.request.handler.IPageRequestHandler",
-			"org.apache.wicket.request.component.IRequestablePage");
 
 	public WicketInstrumentationModule() {
 		super("wicket-requests", "request-handler");
@@ -48,7 +43,7 @@ public final class WicketInstrumentationModule extends InstrumentationModule {
 	}
 
 	@Override
-	public List<String> getAdditionalHelperClassNames() {
-		return Collections.unmodifiableList(HELPER_CLASSES);
+	public boolean isHelperClass(String className) {
+		return className.startsWith("io.github.iamrakesh.otel.wicket.instrumentation");
 	}
 }
